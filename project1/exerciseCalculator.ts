@@ -10,7 +10,7 @@ interface Result {
 }
 
 
-const calculateExercises = (exercised: Array<number>, target: number) : Result => {
+export const calculateExercises = (exercised: Array<number>, target: number) : Result => {
   const periodLength = exercised.length;
   const trainingDays = exercised.filter(hours => hours > 0.0).length;
   const average = exercised.reduce((prev, current) => prev + current) / exercised.length;
@@ -34,19 +34,20 @@ const calculateExercises = (exercised: Array<number>, target: number) : Result =
     ratingDescription,
     target,
     average
+  };
+};
+/*
+const parseArguments = () : void => {
+  const args = process.argv.splice(2, process.argv.length);
+  const target = Number(args.splice(0, 1));
+  const exerciseArray = args.map(item => Number(item));
+
+  if (exerciseArray.length === 0) {
+    throw new Error('Exercise array is empty! Too few arguments');
+  }
+
+  if (isNaN(target)) {
+    throw new Error('Target hours argument was not a number');
   }
 }
-
-const args = process.argv.splice(2, process.argv.length);
-const target = Number(args.splice(0, 1));
-const exerciseArray = args.map(item => Number(item));
-
-if (exerciseArray.length === 0) {
-  throw new Error('Exercise array is empty! Too few arguments');
-}
-
-if (isNaN(target)) {
-  throw new Error('Target hours argument was not a number');
-}
-
-console.log(calculateExercises(exerciseArray, target));
+*/

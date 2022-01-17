@@ -22,4 +22,4 @@ export const calculateBmi = (height: number, weight: number) : string => {
     message = "Obese";
   }
   return message;
-}
+};
