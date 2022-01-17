@@ -1,4 +1,4 @@
-
+export {};
 
 const calculateBmi = (height: number, weight: number) : string => {
   const bmi = weight / ((height / 100) * (height / 100));
@@ -16,8 +16,20 @@ const calculateBmi = (height: number, weight: number) : string => {
   } else {
     message = "Obese";
   }
-  return message
+  return message;
 }
 
-console.log(calculateBmi(180, 74));
+if (process.argv.length !== 4) {
+  throw new Error('Invalid number of arguments. Give 2');
+}
+
+const args = process.argv.splice(2, process.argv.length);
+const height = Number(args[0]);
+const weight = Number(args[1]);
+
+if (isNaN(height) || isNaN(weight)) {
+  throw new Error('Both arguments need to be numbers');
+}
+
+console.log(calculateBmi(height, weight));
 
