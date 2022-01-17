@@ -1,6 +1,11 @@
 export {};
 
-const calculateBmi = (height: number, weight: number) : string => {
+export const calculateBmi = (height: number, weight: number) : string => {
+    
+  if (isNaN(height) || isNaN(weight)) {
+    throw new Error('Both arguments need to be numbers');
+  }
+
   const bmi = weight / ((height / 100) * (height / 100));
   let message = "";
   if (bmi < 16.0) {
@@ -18,18 +23,3 @@ const calculateBmi = (height: number, weight: number) : string => {
   }
   return message;
 }
-
-if (process.argv.length !== 4) {
-  throw new Error('Invalid number of arguments. Give 2');
-}
-
-const args = process.argv.splice(2, process.argv.length);
-const height = Number(args[0]);
-const weight = Number(args[1]);
-
-if (isNaN(height) || isNaN(weight)) {
-  throw new Error('Both arguments need to be numbers');
-}
-
-console.log(calculateBmi(height, weight));
-
