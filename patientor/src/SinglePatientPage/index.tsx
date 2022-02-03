@@ -20,7 +20,11 @@ const SinglePatientPage = () => {
         );
         setPatient(patient);
       } catch (e) {
-        console.error(e.response?.data || 'Unknown error when fetching patient');
+        if (e) {
+          if (e instanceof Error) {
+            console.error(e || 'Unknown error when fetching patient');
+          }
+        }
       }
     };
     void fetchPatient();
