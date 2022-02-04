@@ -11,6 +11,9 @@ const router = express_1.default.Router();
 router.get('/', (_req, res) => {
     res.send(patientsService_1.default.getPatients());
 });
+router.get('/:id', (req, res) => {
+    res.send(patientsService_1.default.getPatientById(req.params.id));
+});
 router.post('/', (req, res) => {
     try {
         const { name, dateOfBirth, ssn, gender, occupation } = (0, utils_1.default)(req.body);
@@ -19,7 +22,8 @@ router.post('/', (req, res) => {
             dateOfBirth,
             ssn,
             gender,
-            occupation
+            occupation,
+            entries: [],
         });
         res.json(newPatient);
     }

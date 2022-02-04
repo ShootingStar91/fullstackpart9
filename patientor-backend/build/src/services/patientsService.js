@@ -6,8 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 const uuid_1 = require("uuid");
-const patients_json_1 = __importDefault(require("../../data/patients.json"));
-const patients = patients_json_1.default;
+const patients_1 = __importDefault(require("../../data/patients"));
+const patients = patients_1.default;
+const getPatientById = (id) => {
+    const patient = patients.find(patient => patient.id === id);
+    return patient;
+};
 const getPatients = () => {
     return patients.map(({ id, name, dateOfBirth, gender, occupation }) => {
         return {
@@ -22,6 +26,7 @@ const addPatient = (newPatient) => {
     return newReadyPatient;
 };
 exports.default = {
+    getPatientById,
     getPatients,
     addPatient
 };

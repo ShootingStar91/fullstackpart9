@@ -30,13 +30,14 @@ const parseGender = (gender) => {
     }
     return gender;
 };
-const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation }) => {
+const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation, entries }) => {
     const newPatient = {
         name: parseString(name),
         dateOfBirth: parseDateOfBirth(dateOfBirth),
         ssn: parseString(ssn),
         gender: parseGender(gender),
-        occupation: parseString(occupation)
+        occupation: parseString(occupation),
+        entries: entries
     };
     return newPatient;
 };

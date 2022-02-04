@@ -5,10 +5,14 @@ import toNewPatient from '../utils';
 
 const router = express.Router();
 
+
 router.get('/', (_req, res) => {
   res.send(patientsService.getPatients());
 });
 
+router.get('/:id', (req, res) => {
+  res.send(patientsService.getPatientById(req.params.id));
+});
 router.post('/', (req, res) => {
   try {
     const { name, dateOfBirth, ssn, gender, occupation } = toNewPatient(req.body);
@@ -17,7 +21,8 @@ router.post('/', (req, res) => {
       dateOfBirth,
       ssn,
       gender,
-      occupation
+      occupation,
+      entries: [],
     });
     res.json(newPatient);
   } catch (e) {
