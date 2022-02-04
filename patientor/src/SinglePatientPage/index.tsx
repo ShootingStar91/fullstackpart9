@@ -2,23 +2,28 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Icon, SemanticICONS } from "semantic-ui-react";
 
-import { Patient } from "../types";
+import { Patient, Diagnosis } from "../types";
 import { apiBaseUrl } from "../constants";
 import { useParams } from "react-router-dom";
+import { DisplayEntries } from "./DisplayEntries";
 
 const SinglePatientPage = () => {
 
   const [patient, setPatient] = useState<Patient | null>();
-
+  const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([]);
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     const fetchPatient = async () => {
       try {
-        const { data: patient } = await axios.get<Patient>(
+        const { data: newPatient } = await axios.get<Patient>(
           `${apiBaseUrl}/patients/${id}`
         );
-        setPatient(patient);
+        const { data: newDiagnoses } = await axios.get<Diagnosis[]>(
+          `${apiBaseUrl}/diagnoses/`
+        );
+        setPatient(newPatient);
+        setDiagnoses(newDiagnoses);
       } catch (e) {
         if (e) {
           if (e instanceof Error) {
@@ -48,15 +53,21 @@ const SinglePatientPage = () => {
   return (
     <div className="App">
       <Container textAlign="left">
-        <h3>{patient.name}</h3>
+        <h2>{patient.name}</h2>
         <Icon fitted name={iconName} />
       </Container>
       <Container textAlign="left">
         <div>ssn: {patient.ssn}</div>
         <div>occupation: {patient.occupation}</div>
       </Container>
+      <Container textAlign="left">
+        <DisplayEntries patient={patient} diagnoses={diagnoses} />
+      </Container>
     </div>
   );
 };
+
+
+
 
 export default SinglePatientPage;
