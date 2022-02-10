@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Icon, SemanticICONS } from "semantic-ui-react";
 
-import { Patient, Diagnosis } from "../types";
+import { Patient, Diagnosis, Entry } from "../types";
 import { apiBaseUrl } from "../constants";
 import { useParams } from "react-router-dom";
 import { DisplayEntries } from "./DisplayEntries";
+import { AddEntryForm, EntryValues } from "./AddEntryForm";
+
 
 const SinglePatientPage = () => {
 
@@ -36,6 +38,22 @@ const SinglePatientPage = () => {
     
   }, []);
 
+  const onSubmit = async (values: EntryValues, { resetForm }: { resetForm: () => void }) => {
+    try {
+      await axios.post<Entry>(
+        `${apiBaseUrl}/patients/${id}/entries`,
+        values
+      );
+      resetForm();
+      console.log("submitted");
+      console.log(values);  
+    } catch (e) {
+      if (e instanceof Error) {
+        console.error(e.name || 'Unknown Error');
+      }
+    }
+  };
+
 
   if (patient === null || patient === undefined) {
     return null;
@@ -60,6 +78,11 @@ const SinglePatientPage = () => {
         <div>ssn: {patient.ssn}</div>
         <div>occupation: {patient.occupation}</div>
       </Container>
+      <br />
+      <Container>
+        <AddEntryForm onSubmit={onSubmit} />
+      </Container>
+      <br />
       <Container textAlign="left">
         <DisplayEntries patient={patient} diagnoses={diagnoses} />
       </Container>

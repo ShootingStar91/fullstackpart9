@@ -44,7 +44,7 @@ export const DisplayEntry = ({ entry, diagnoses }: { entry: Entry, diagnoses: Di
         <Segment>
           <p>{entry.date} <Icon name={getIcon(entry.type)}/></p>
           <p><i>{entry.description}</i></p>
-          <p>{entry.diagnosisCodes && <ul>{entry.diagnosisCodes.map(code => <li key={code}>{code} {diagnoses.find(d => d.code === code)?.name}</li>)}</ul>}</p>
+          <div>{entry.diagnosisCodes && <ul>{entry.diagnosisCodes.map(code => <li key={code}>{code} {diagnoses.find(d => d.code === code)?.name}</li>)}</ul>}</div>
           <p>{entry.type === 'HealthCheck' && <Icon name="heart" color={getRatingColor(entry.healthCheckRating)} />  }</p>
         </Segment>
       );
