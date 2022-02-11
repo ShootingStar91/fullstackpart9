@@ -40,10 +40,15 @@ const SinglePatientPage = () => {
 
   const onSubmit = async (values: EntryValues, { resetForm }: { resetForm: () => void }) => {
     try {
-      await axios.post<Entry>(
+      const { data } = await axios.post<Entry>(
         `${apiBaseUrl}/patients/${id}/entries`,
         values
       );
+      const newEntry = data;
+      patient?.entries.push(newEntry);
+      if (patient !== null && patient !== undefined) {
+        setPatient({ ...patient });
+      }
       resetForm();
       console.log("submitted");
       console.log(values);  

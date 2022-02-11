@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {v1 as uuid} from 'uuid';
 import patientData from '../../data/patients';
-import { Patient, NewPatient, CensoredPatient } from '../types';
+import { Diagnosis, Patient, NewPatient, CensoredPatient, RawHealthCheckEntry, RawOccupationalHealthcareEntry, RawHospitalEntry, HealthCheckEntry, OccupationalHealthcareEntry, HospitalEntry } from '../types';
 const patients: Array<Patient> = patientData;
 
 const getPatientById = (id: string): Patient | undefined => {
@@ -28,8 +28,49 @@ const addPatient = (newPatient: NewPatient) : Patient => {
     return newReadyPatient;
 };
 
+const addHealthCheckEntry = (rawEntry: RawHealthCheckEntry, diagnosisCodes: Array<Diagnosis['code']> | undefined, patientId: string) : RawHealthCheckEntry => {
+  const id: string = uuid();
+  const patient = patients.find(patient => patient.id === patientId);
+  if (!patient) {
+    throw new Error("Invalid patient ID in new entry post request");
+  }
+  const newEntry: HealthCheckEntry = { ...rawEntry, id};
+  if (diagnosisCodes !== undefined) {
+    newEntry.diagnosisCodes = diagnosisCodes;
+  }
+  patient.entries.push(newEntry);
+  console.log("pushed new entry:");
+  console.log(newEntry);
+  return newEntry;
+};
+
+const addOccupationalHealthcareEntry = (rawEntry: RawOccupationalHealthcareEntry, patientId: string) : RawOccupationalHealthcareEntry => {
+  const id: string = uuid();
+  const patient = patients.find(patient => patient.id === patientId);
+  if (!patient) {
+    throw new Error("Invalid patient ID in new entry post request");
+  }
+  const newEntry: OccupationalHealthcareEntry = { ...rawEntry, id};
+  patient.entries.push(newEntry);
+  return newEntry;
+};
+
+const addHospitalEntry = (rawEntry: RawHospitalEntry, patientId: string) : HospitalEntry => {
+  const id: string = uuid();
+  const patient = patients.find(patient => patient.id === patientId);
+  if (!patient) {
+    throw new Error("Invalid patient ID in new entry post request");
+  }
+  const newEntry = { ...rawEntry, id};
+  patient.entries.push(newEntry);
+  return newEntry;
+};
+
 export default {
   getPatientById,
   getPatients,
-  addPatient
+  addPatient,
+  addHealthCheckEntry,
+  addOccupationalHealthcareEntry,
+  addHospitalEntry
 };

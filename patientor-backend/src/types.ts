@@ -1,8 +1,4 @@
-export interface Diagnose {
-  code: string;
-  name: string;
-  latin?: string;
-}
+
 
 export interface Patient {
   id: string;
@@ -58,17 +54,17 @@ export interface SickLeave {
   endDate: string;
 }
 
-interface HealthCheckEntry extends BaseEntry {
+export interface HealthCheckEntry extends BaseEntry {
   type: "HealthCheck";
   healthCheckRating: HealthCheckRating;
 }
 
-interface HospitalEntry extends BaseEntry {
+export interface HospitalEntry extends BaseEntry {
   type: "Hospital";
   discharge: Discharge;
 }
 
-interface OccupationalHealthcareEntry extends BaseEntry {
+export interface OccupationalHealthcareEntry extends BaseEntry {
   type: "OccupationalHealthcare";
   sickLeave?: SickLeave;
   employerName: string;
@@ -78,3 +74,8 @@ export type Entry =
   | HospitalEntry
   | OccupationalHealthcareEntry
   | HealthCheckEntry;
+
+export type RawEntry = Omit<Entry, 'id'>;
+export type RawHospitalEntry = Omit<HospitalEntry, 'id'>;
+export type RawHealthCheckEntry = Omit<HealthCheckEntry, 'id'>;
+export type RawOccupationalHealthcareEntry = Omit<OccupationalHealthcareEntry, 'id'>;
