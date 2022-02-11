@@ -40,23 +40,29 @@ const addHealthCheckEntry = (rawEntry, diagnosisCodes, patientId) => {
     console.log(newEntry);
     return newEntry;
 };
-const addOccupationalHealthcareEntry = (rawEntry, patientId) => {
+const addOccupationalHealthcareEntry = (rawEntry, diagnosisCodes, patientId) => {
     const id = (0, uuid_1.v1)();
     const patient = patients.find(patient => patient.id === patientId);
     if (!patient) {
         throw new Error("Invalid patient ID in new entry post request");
     }
     const newEntry = Object.assign(Object.assign({}, rawEntry), { id });
+    if (diagnosisCodes !== undefined) {
+        newEntry.diagnosisCodes = diagnosisCodes;
+    }
     patient.entries.push(newEntry);
     return newEntry;
 };
-const addHospitalEntry = (rawEntry, patientId) => {
+const addHospitalEntry = (rawEntry, diagnosisCodes, patientId) => {
     const id = (0, uuid_1.v1)();
     const patient = patients.find(patient => patient.id === patientId);
     if (!patient) {
         throw new Error("Invalid patient ID in new entry post request");
     }
     const newEntry = Object.assign(Object.assign({}, rawEntry), { id });
+    if (diagnosisCodes !== undefined) {
+        newEntry.diagnosisCodes = diagnosisCodes;
+    }
     patient.entries.push(newEntry);
     return newEntry;
 };

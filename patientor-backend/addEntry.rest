@@ -3,7 +3,12 @@ content-type: application/json
 
 {
   "date": "fakeDate",
-  "healthCheckRating": 1,
-  "specialist": "matti jeesus",
-  "description": "fakeDescription"
+  "sickLeave": {
+    "startDate": "12-12-2020",
+    "endDate": "abc"
+  },
+  "employerName": "helsinginyliopisto",
+  "specialist": "spesialisti",
+  "description": "fakeDescription",
+  "diagnosisCodes": ["ABC1", "adsf123"]
 }

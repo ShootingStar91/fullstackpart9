@@ -33,12 +33,12 @@ router.post('/:id/entries', (req, res) => {
       if (req.body.sickLeave) {
         const sickLeave = req.body.sickLeave as SickLeave;
         const addedEntry = patientsService.addOccupationalHealthcareEntry(
-          { date, specialist, description, sickLeave, employerName, type: "OccupationalHealthcare" }
+          { date, specialist, description, sickLeave, employerName, type: "OccupationalHealthcare" }, diagnosisCodes
           , patient_id);
         res.send(addedEntry);
       } else {
         const addedEntry = patientsService.addOccupationalHealthcareEntry(
-          { date, specialist, description, employerName, type: "OccupationalHealthcare" }
+          { date, specialist, description, employerName, type: "OccupationalHealthcare" }, diagnosisCodes
           , patient_id);
         res.send(addedEntry);
       }
@@ -46,8 +46,7 @@ router.post('/:id/entries', (req, res) => {
     } else if (req.body.discharge) {
       const discharge: Discharge = req.body.discharge as Discharge;
       const addedEntry = patientsService.addHospitalEntry(
-        { date, specialist, description, discharge, type: "Hospital" }
-        , patient_id);
+        { date, specialist, description, discharge, type: "Hospital" },  diagnosisCodes, patient_id);
       res.send(addedEntry);    }
   } else {
     res.send("ERROR");
@@ -60,8 +59,10 @@ router.get('/', (_req, res) => {
 });
 
 router.get('/:id', (req, res) => {
+  console.log("getting patient with id", req.params.id);
   res.send(patientsService.getPatientById(req.params.id));
 });
+
 router.post('/', (req, res) => {
   try {
     const { name, dateOfBirth, ssn, gender, occupation } = toNewPatient(req.body);
